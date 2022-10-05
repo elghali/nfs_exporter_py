@@ -1,27 +1,3 @@
-# nfs_exporter_py
-Source code for https://hub.docker.com/repository/docker/elghali/nfs_exporter_py
-
-# nfs_exporter_py
-
-This is a prometheus exporter that collects metrics using a python script. The script's main function is to expose the number of files in a directory specified by `dir_path` parameter.
-Usage
----
-```
-git clone https://github.com/elghali/nfs_exporter_py.git
-cd nfs_exporter_py
-python3 script-exporter-py [dir_path]
-
-[Try it](https://loclhost:9469)
-
-```
-
-## Docker
-
-`docker run -it -v "[dir_path]:[dir_path]" -p 9469:9469 -e dir_path="[dir_path]" -d elghali/nfs_exporter_py:1.0`
-
-## K8s
-To try the exporter on K8s we can use the below sample deployment or visit [examples](https://github.com/elghali/nfs_exporter_py/examples) for more examples.
-```
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -42,7 +18,7 @@ spec:
     spec:
       containers:
         - name: script-exporter-py
-          image: elghali/nfs_exporter_py:1.0
+          image: elghali/script_exporter_py:1.0
           env:
           - name: dir_path
             value: /ni/path_to_dir
@@ -78,5 +54,3 @@ spec:
             path: /script-exporter/ni
             server: 10.0.1.12
             
-
-```
