@@ -8,12 +8,15 @@ RUN apk add --no-cache python3 && \
 
 
 LABEL maintainer="Elias Ghali"
-LABEL git.url="https://github.com/elghali"
+LABEL git.url="https://github.com/elghali/nfs_exporter_py"
 
-COPY nfs_exporter_py.py /etc/nfs_exporter_py.py
+WORKDIR /nfs_exporter_py
+
+#Copy Scripts
+COPY nfs_exporter_py.py /nfs_exporter_py
 EXPOSE 9469
 
-CMD ["python3", "/etc/nfs_exporter_py.py"]
+CMD ["python3", "nfs_exporter_py.py"]
 
-# docker build --no-cache --rm -t nfs_exporter_py:1.0 .
-# docker run -it -v "/home/elghali:/home/elghali" -p 9469:9469 -d nfs_exporter_py:1.0
+# docker build --no-cache --rm -t elghali/nfs_exporter_py:1.0 .
+# docker run -it -v "/home/elghali:/home/elghali" -p 9469:9469 -d elghali/nfs_exporter_py:1.0

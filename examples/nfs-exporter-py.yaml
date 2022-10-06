@@ -1,27 +1,37 @@
 ---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: nfs-exporter-py
+  namespace: nfs-exporter
+  labels:
+    app.kubernetes.io/name: nfs-exporter-py
+data:
+  config.yaml: |
+    dir_path: /home/elghali,/home/elghali/myFiles
+    port: 9469
+    metric_freq: 60
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: script-exporter-py
-  namespace: script-exporter
+  name: nfs-exporter-py
+  namespace: nfs-exporter
   labels:
-    app.kubernetes.io/name: script-exporter-py
+    app.kubernetes.io/name: nfs-exporter-py
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app.kubernetes.io/name: script-exporter-py
+      app.kubernetes.io/name: nfs-exporter-py
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: script-exporter-py
+        app.kubernetes.io/name: nfs-exporter-py
     spec:
       containers:
-        - name: script-exporter-py
-          image: elghali/script_exporter_py:1.0
-          env:
-          - name: dir_path
-            value: /ni/path_to_dir
+        - name: nfs-exporter-py
+          image: elghali/nfs_exporter_py:1.4
           ports:
             - name: http
               containerPort: 9469
@@ -46,11 +56,17 @@ spec:
             successThreshold: 1
             timeoutSeconds: 10
           volumeMounts:
+            - name: config
+              mountPath: /nfs_exporter_py/config.yaml
+              subPath: config.yaml
             - mountPath: /ni
-              name: ni-etl-root
+              name: nfs-root
       volumes:
-        - name: ni-etl-root
+        - name: config
+          configMap:
+            name: nfs-exporter-py
+            defaultMode: 0777
+        - name: nfs-root
           nfs:
-            path: /script-exporter/ni
-            server: 10.0.1.12
-            
+            path: <mountPath>
+            server: <nfsIp>

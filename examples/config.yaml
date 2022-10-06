@@ -1,3 +1,3 @@
-dir_path: /home/elghali
+dir_path: /home/elghali,/home/elghali/myFiles
 port: 9469
 metric_freq: 60
