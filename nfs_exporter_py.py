@@ -50,14 +50,14 @@ class FilesNumberCollector(object):
         return len(os.listdir(path))
 
     def collect(self):
-        gauge = GaugeMetricFamily('number_of_files', 'Number of Files in Directory', labels=["dir_path"])
+        gauge = GaugeMetricFamily('number_of_files', 'Number of Files in Directory', labels=["dir_path","scan_subdir"])
         for index, value in enumerate(dir_path):
             if not os.path.exists(value):
                 logger.error('Directory ' + value + ' Does not exists, Skipping')
                 continue
             logger.debug('Watching Dir: ' + value + ' scan_subdir ' + str(scan_subdir[index]))
             # Create a metric to track number of files.
-            gauge.add_metric([value], self.getNumberOfFiles(value, scan_subdir[index]))
+            gauge.add_metric([value,str(scan_subdir[index])], self.getNumberOfFiles(value, scan_subdir[index]))
         yield gauge
 
 if __name__ == '__main__':
