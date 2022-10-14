@@ -9,7 +9,7 @@ Usage
 ```
 git clone https://github.com/elghali/nfs_exporter_py.git
 cd nfs_exporter_py
-python3 script-exporter-py [dir_path]
+python3 script-exporter-py
 
 [Try it](https://loclhost:9469)
 
@@ -17,7 +17,7 @@ python3 script-exporter-py [dir_path]
 
 ## Docker
 
-`docker run -it -v "[dir_path]:[dir_path]" -p 9469:9469 -e dir_path="[dir_path]" -d elghali/nfs_exporter_py:1.0`
+`docker run -it -v "[dir_path]:[dir_path]" -p 9469:9469 -e dir_path="[dir_path]" -d elghali/nfs_exporter_py:2.0`
 
 ## K8s
 To try the exporter on K8s we can use the below sample deployment or visit [examples](https://github.com/elghali/nfs_exporter_py/examples) for more examples.
@@ -32,9 +32,11 @@ metadata:
     app.kubernetes.io/name: nfs-exporter-py
 data:
   config.yaml: |
-    dir_path: /home/elghali,/home/elghali/myFiles
+    dir_path: [/home/elghali,/home/elghali/myFiles]
+    scan_subdir: [False,True]
     port: 9469
     metric_freq: 60
+    logging_level: DEBUG
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -55,7 +57,7 @@ spec:
     spec:
       containers:
         - name: nfs-exporter-py
-          image: elghali/nfs_exporter_py:1.4
+          image: elghali/nfs_exporter_py:2.0
           ports:
             - name: http
               containerPort: 9469
@@ -101,6 +103,8 @@ spec:
 
 | Option | Default | Description
 | ----------- | ----------- | ----------- |
-| dir_path | /opt | NFS path(s) to montior
+| dir_path | ['/opt'] | NFS path(s) to montior
+| scan_subdir | [False] | Include subdirectories in count (True) or not (False)
 | port | 9469 | Exposed port |
 | metric_freq | 10 | Metrics scraping frequency |
+| logging_level | DEBUG | Logging Level

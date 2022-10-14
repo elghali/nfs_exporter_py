@@ -1,3 +1,5 @@
-dir_path: /home/elghali,/home/elghali/myFiles
+dir_path: [/home/elghali,/home/elghali/myFiles]
+scan_subdir: [False,True]
 port: 9469
 metric_freq: 60
+logging_level: DEBUG
