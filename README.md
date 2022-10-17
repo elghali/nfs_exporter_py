@@ -11,7 +11,7 @@ git clone https://github.com/elghali/nfs_exporter_py.git
 cd nfs_exporter_py
 python3 script-exporter-py
 
-[Try it](https://loclhost:9469)
+[Try it](https://localhost:9469).
 
 ```
 
