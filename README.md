@@ -17,7 +17,7 @@ python3 script-exporter-py
 
 ## Docker
 
-`docker run -it -v "[dir_path]:[dir_path]" -p 9469:9469 -e dir_path="[dir_path]" -d elghali/nfs_exporter_py:2.0`
+`docker run -it -v "/home/elghali:/home/elghali" -p 9469:9469 -d elghali/nfs_exporter_py:1.0`
 
 ## K8s
 To try the exporter on K8s we can use the below sample deployment or visit [examples](https://github.com/elghali/nfs_exporter_py/examples) for more examples.
